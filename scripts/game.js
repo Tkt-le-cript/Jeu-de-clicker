@@ -1,85 +1,69 @@
 let money = 0;
+let clickPower = 1;
+let autoIncome = 0;
+
 let pseudo = localStorage.getItem("pseudo") || "Invité";
 let isGuest = localStorage.getItem("guest") === "true";
 
-// Initialisation interface
 document.getElementById("playerName").textContent = pseudo;
 document.getElementById("money").textContent = money;
 
-// === Clicker ===
 document.getElementById("clickButton").addEventListener("click", () => {
-  money += 1;
+  money += clickPower;
   updateDisplay();
 });
 
-// === Upgrade système (simple exemple) ===
 const upgrades = [
-  { name: "Améliorer moteur 3D", cost: 10, bonus: 1 },
-  { name: "Créer des mobs", cost: 50, bonus: 5 },
+  { name: "Coder plus vite", cost: 20, clickBoost: 1 },
+  { name: "Assistant IA", cost: 100, autoBoost: 2 },
+  { name: "Graphismes HD", cost: 250, clickBoost: 5 },
 ];
 
 function loadUpgrades() {
-  const upgradesDiv = document.getElementById("upgrades");
-  upgradesDiv.innerHTML = "";
-  upgrades.forEach((upg, index) => {
+  const container = document.getElementById("upgrades");
+  container.innerHTML = "";
+
+  upgrades.forEach((upg, i) => {
     const btn = document.createElement("button");
-    btn.textContent = `${upg.name} (${upg.cost}$)`;
+    btn.textContent = `${upg.name} - ${upg.cost}$`;
     btn.onclick = () => {
       if (money >= upg.cost) {
         money -= upg.cost;
-        upg.cost *= 2;
-        upg.bonus += 1;
-        autoIncome += upg.bonus;
+        clickPower += upg.clickBoost || 0;
+        autoIncome += upg.autoBoost || 0;
+        upg.cost = Math.floor(upg.cost * 1.7);
         loadUpgrades();
         updateDisplay();
       }
     };
-    upgradesDiv.appendChild(btn);
+    container.appendChild(btn);
   });
 }
-let autoIncome = 0;
+
+function updateDisplay() {
+  document.getElementById("money").textContent = Math.floor(money);
+}
+
 setInterval(() => {
   money += autoIncome;
   updateDisplay();
 }, 1000);
 
-function updateDisplay() {
-  document.getElementById("money").textContent = money;
-}
-
 loadUpgrades();
 
-// === Invité : lancer modale + timer reset ===
+// Si invité, expire après 1h
 if (isGuest) {
-  const modal = document.getElementById("guestModal");
-  modal.classList.remove("hidden");
-
-  document.getElementById("continueGuest").addEventListener("click", () => {
-    modal.classList.add("hidden");
-    startGuestSessionTimer();
-  });
-}
-
-function startGuestSessionTimer() {
-  const expireAt = Date.now() + 60 * 60 * 1000; // 1h
-  localStorage.setItem("guestExpire", expireAt);
-
-  setTimeout(() => {
-    alert("⏳ Session expirée. Tout est perdu !");
+  const expire = parseInt(localStorage.getItem("guestExpire") || "0", 10);
+  const timeLeft = expire - Date.now();
+  if (timeLeft <= 0) {
+    alert("Session expirée. Reviens te connecter !");
     localStorage.clear();
     location.href = "index.html";
-  }, 60 * 60 * 1000);
-}
-
-// Si on recharge la page en invité après avoir cliqué, reprendre le timer
-if (isGuest && !document.getElementById("guestModal")?.classList.contains("hidden")) {
-  const savedExpire = localStorage.getItem("guestExpire");
-  if (savedExpire && Date.now() < parseInt(savedExpire)) {
-    const delay = parseInt(savedExpire) - Date.now();
+  } else {
     setTimeout(() => {
-      alert("⏳ Session expirée !");
+      alert("Session invitée expirée. Tes données sont perdues.");
       localStorage.clear();
       location.href = "index.html";
-    }, delay);
+    }, timeLeft);
   }
 }
