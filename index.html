@@ -1,85 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <title>Jeu de Clic - Minecraft Tycoon</title>
-  <style>
-    body { font-family: sans-serif; text-align: center; background: #111; color: #fff; }
-    button { padding: 10px 20px; margin: 10px; font-size: 16px; }
-  </style>
+  <meta charset="UTF-8">
+  <title>Minecraft Tycoon - Connexion</title>
+  <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-  <h1>🎮 Minecraft Tycoon</h1>
-  <p>💰 Argent : <span id="money">0</span> $</p>
-  <p>🎮 Version du jeu : <span id="version">Minecraft 2017</span></p>
-  <p>📈 Revenus passifs : <span id="passive">0</span> $ / sec</p>
+  <div class="container">
+    <h1>Minecraft Tycoon</h1>
+    <p>Connecte-toi pour sauvegarder ta progression !</p>
+    
+    <!-- Connexion Google -->
+    <button id="google-login">🔒 Se connecter avec Google</button>
 
-  <button onclick="clickMoney()">💥 CLiQUE ICI POUR GAGNER DE L'ARGENT</button>
+    <!-- Jouer en invité -->
+    <button id="guest-login">🎮 Jouer en invité</button>
+  </div>
 
-  <h2>⬆️ Améliorations</h2>
-  <div id="upgrades"></div>
-
-  <h2>🕹️ Structures</h2>
-  <div id="structures"></div>
-
-  <script>
-    let money = 0;
-    let versionIndex = 0;
-    let passiveIncome = 0;
-    const versions = ["Minecraft 2017", "Minecraft 2018", "Minecraft 2019", "Minecraft RTX", "Minecraft 2025"];
-
-    function clickMoney() {
-      money += 1;
-      update();
-    }
-
-    function buyUpgrade(cost, benefit, type) {
-      if (money >= cost) {
-        money -= cost;
-        if (type === "version") {
-          versionIndex = Math.min(versionIndex + 1, versions.length - 1);
-        } else if (type === "passive") {
-          passiveIncome += benefit;
-        }
-        update();
-      }
-    }
-
-    function update() {
-      document.getElementById("money").innerText = Math.floor(money);
-      document.getElementById("version").innerText = versions[versionIndex];
-      document.getElementById("passive").innerText = passiveIncome;
-
-      renderUpgrades();
-      renderStructures();
-    }
-
-    function renderUpgrades() {
-      document.getElementById("upgrades").innerHTML = '';
-      if (versionIndex < versions.length - 1) {
-        document.getElementById("upgrades").innerHTML += `<button onclick="buyUpgrade(100 * (versionIndex + 1), 0, 'version')">⬆️ Passer à ${versions[versionIndex + 1]} — ${100 * (versionIndex + 1)} $</button>`;
-      }
-    }
-
-    const structuresList = [
-      { name: "Zombitek", cost: 500, income: 2 },
-      { name: "FarmSim++", cost: 1500, income: 5 },
-      { name: "UltraFPS 3D", cost: 5000, income: 15 }
-    ];
-
-    function renderStructures() {
-      let html = '';
-      structuresList.forEach((s, i) => {
-        html += `<button onclick="buyUpgrade(${s.cost}, ${s.income}, 'passive')">🎲 Acheter ${s.name} — ${s.cost} $ (+${s.income} $/sec)</button><br>`;
-      });
-      document.getElementById("structures").innerHTML = html;
-    }
-
-    setInterval(() => {
-      money += passiveIncome;
-      update();
-    }, 1000);
-
-    update();
-  </script>
+  <script src="scripts/auth.js"></script>
 </body>
 </html>
