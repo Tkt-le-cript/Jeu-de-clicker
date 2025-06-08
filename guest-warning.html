@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Jouer en invité</title>
-</head>
-<body>
-  <div class="container">
-    <h2>⚠️ Attention</h2>
-    <p>Tu es sur le point de jouer en **invité**.<br>
-    Tes données seront supprimées **automatiquement après 1 heure**.<br>
-    Et tu **ne pourras pas récupérer ta progression**.</p>
-    <button onclick="window.location.href='game.html?guest=true'">Continuer quand même</button>
-    <button onclick="window.location.href='index.html'">Annuler</button>
-  </div>
-</body>
-</html>
+<button onclick="continueAsGuest()">Continuer quand même</button>
+
+<script>
+  function continueAsGuest() {
+    localStorage.setItem("guest", "true");
+    window.location.href = "game.html?guest=true";
+  }
+</script>
