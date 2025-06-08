@@ -1,1 +1,8 @@
+// game.js
+const pseudo = localStorage.getItem("pseudo") || "Invité";
+const isGuest = localStorage.getItem("guest") === "true";
 
+if (isGuest) {
+  // démarrer minuteur de 1h etc.
+}
+document.getElementById("playerName").textContent = pseudo;
