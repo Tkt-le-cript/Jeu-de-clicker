@@ -1,1 +1,21 @@
-
+body {
+  background: #1a1a1a;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+button {
+  background-color: #2ecc71;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  margin: 10px;
+  border-radius: 5px;
+  transition: transform 0.1s ease;
+}
+button:active {
+  transform: scale(0.95);
+}
