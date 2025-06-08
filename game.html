@@ -1,8 +1,31 @@
-// game.js
-const pseudo = localStorage.getItem("pseudo") || "Invité";
-const isGuest = localStorage.getItem("guest") === "true";
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Minecraft Tycoon - Jeu</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Minecraft Tycoon</h1>
+    <p>👤 Joueur : <span id="playerName">...</span></p>
+    <p>💰 Argent : <span id="money">0</span> $</p>
+    
+    <button id="clickButton">🎮 Clique pour coder !</button>
 
-if (isGuest) {
-  // démarrer minuteur de 1h etc.
-}
-document.getElementById("playerName").textContent = pseudo;
+    <h2>🛠️ Améliorations</h2>
+    <div id="upgrades"></div>
+
+    <!-- Modal invité -->
+    <div id="guestModal" class="modal hidden">
+      <div class="modal-content">
+        <h2>⚠️ Session invité</h2>
+        <p>Tu es en mode invité. Tes données seront supprimées après 1 heure.</p>
+        <button id="continueGuest">Jouer quand même</button>
+      </div>
+    </div>
+
+    <script type="module" src="scripts/game.js"></script>
+  </div>
+</body>
+</html>
