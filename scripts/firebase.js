@@ -1,8 +1,8 @@
-// Import depuis les CDN Firebase (pas besoin de npm)
+// Import depuis les CDN Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// ✅ Ta configuration Firebase
+// Ta config Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBlA51alOyLgGOqhFLKorwuDYKBZ-QDw48",
   authDomain: "cliquer-396f3.firebaseapp.com",
@@ -13,12 +13,10 @@ const firebaseConfig = {
   measurementId: "G-45BM05HW17"
 };
 
-// Initialisation Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-// Fonction exportée pour se connecter avec Google
 export function signInWithGoogle() {
   return signInWithPopup(auth, provider);
 }
